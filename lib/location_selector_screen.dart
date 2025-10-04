@@ -7,6 +7,7 @@ import 'destination_bottom_sheet.dart';
 import 'notification_button.dart';
 import 'notifications_panel.dart';
 import 'pin_selection_overlay.dart';
+import 'profile_screen.dart';
 
 class LocationSelectionScreen extends StatefulWidget {
   const LocationSelectionScreen({super.key});
@@ -66,14 +67,51 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
     });
   }
 
-  void _onNavTap(int index) {
+  void _onNavTap(int index) async {
+    if (index == _currentNavIndex) return;
+
+    if (index == 1) {
+      // Set index to 1 to highlight Profile tab
+      setState(() {
+        _currentNavIndex = 1;
+      });
+
+      // Navigate to Profile screen with transparent background
+      await Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false, // Makes the route transparent
+          barrierDismissible: true,
+          barrierColor: Colors.transparent,
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return const ProfileScreen();
+          },
+        ),
+      );
+
+      // Reset to Home when returning from Profile
+      setState(() {
+        _currentNavIndex = 0;
+        _showBottomSheet = true;
+      });
+      return;
+    }
+
     setState(() {
       _currentNavIndex = index;
     });
 
     if (index == 0) {
       _showLocationBottomSheet();
+    } else if (index == 3) {
+      // Navigate to Orders screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const OrdersScreen(),
+        ),
+      );
     }
+    // Add index 2 (Messages) when that screen is ready
   }
 
   void _updateMapPosition(Offset delta) {

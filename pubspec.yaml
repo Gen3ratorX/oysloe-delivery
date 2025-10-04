@@ -73,6 +73,11 @@ flutter:
     - assets/map_pin.png
     - assets/loc_pin.png
     - assets/notification.png
+    - assets/feed.png
+    - assets/delete.png
+    - assets/terms.png
+    - assets/private.png
+    - assets/log.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
