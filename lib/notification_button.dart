@@ -32,17 +32,20 @@ class NotificationButton extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Image.asset(
-                'assets/notification.png',
-                width: 24,
-                height: 24,
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(
-                    Icons.notifications_outlined,
-                    color: const Color(0xFF2F3C48),
-                    size: 22,
-                  );
-                },
+              child: Center(
+                child: Image.asset(
+                  'assets/notification.png',
+                  width: 24,
+                  height: 24,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(
+                      Icons.notifications_outlined,
+                      color: Color(0xFF2F3C48),
+                      size: 22,
+                    );
+                  },
+                ),
               ),
             ),
           ),

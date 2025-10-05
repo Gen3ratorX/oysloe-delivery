@@ -217,28 +217,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       // Google Button
                       Container(
-                        width: 56,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey.shade300),
+                        width: 52,
+                        height: 52,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFFFFFFF),
+                          shape: BoxShape.circle,
                         ),
-                        child: IconButton(
-                          onPressed: () {
-                            // Handle Google login
-                          },
-                          icon: Image.asset(
-                            'assets/google_logo.png',
-                            width: 24,
-                            height: 24,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                Icons.g_mobiledata,
-                                size: 28,
-                                color: Colors.grey.shade700,
-                              );
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              // Handle Google login
                             },
+                            customBorder: const CircleBorder(),
+                            child: Center(
+                              child: Image.asset(
+                                'assets/google_logo.png',
+                                width: 24,
+                                height: 24,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Icon(
+                                    Icons.g_mobiledata,
+                                    size: 28,
+                                    color: Colors.grey.shade700,
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -246,28 +251,33 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       // Phone/SMS Button
                       Container(
-                        width: 56,
-                        height: 56,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey.shade300),
+                        width: 52,
+                        height: 52,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFFFFFFF),
+                          shape: BoxShape.circle,
                         ),
-                        child: IconButton(
-                          onPressed: () {
-                            // Handle phone/SMS login
-                          },
-                          icon: Image.asset(
-                            'assets/phonesms.png',
-                            width: 24,
-                            height: 24,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                Icons.phone,
-                                size: 24,
-                                color: Colors.grey.shade700,
-                              );
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              // Handle phone/SMS login
                             },
+                            customBorder: const CircleBorder(),
+                            child: Center(
+                              child: Image.asset(
+                                'assets/phonesms.png',
+                                width: 24,
+                                height: 24,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Icon(
+                                    Icons.phone,
+                                    size: 24,
+                                    color: Colors.grey.shade700,
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ),
