@@ -78,6 +78,14 @@ flutter:
     - assets/terms.png
     - assets/private.png
     - assets/log.png
+    - assets/home_act.png
+    - assets/home_in.png
+    - assets/profile_act.png
+    - assets/profile_in.png
+    - assets/message_act.png
+    - assets/message_in.png
+    - assets/order_act.png
+    - assets/order_in.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

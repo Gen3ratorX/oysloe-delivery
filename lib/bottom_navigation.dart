@@ -27,88 +27,66 @@ class BottomNavigation extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          GestureDetector(
-            onTap: () => onTap(0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.home,
-                  color: currentIndex == 0 ? Colors.grey.shade800 : Colors.grey.shade400,
-                  size: 24,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Home',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: currentIndex == 0 ? Colors.grey.shade800 : Colors.grey.shade400,
-                  ),
-                ),
-              ],
-            ),
+          _buildNavItem(
+            index: 0,
+            activeImage: 'assets/home_act.png',
+            inactiveImage: 'assets/home_in.png',
+            label: 'Home',
           ),
-          GestureDetector(
-            onTap: () => onTap(1),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.person_outline,
-                  color: currentIndex == 1 ? Colors.grey.shade800 : Colors.grey.shade400,
-                  size: 24,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Profile',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: currentIndex == 1 ? Colors.grey.shade800 : Colors.grey.shade400,
-                  ),
-                ),
-              ],
-            ),
+          _buildNavItem(
+            index: 1,
+            activeImage: 'assets/profile_act.png',
+            inactiveImage: 'assets/profile_in.png',
+            label: 'Profile',
           ),
-          GestureDetector(
-            onTap: () => onTap(2),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.message_outlined,
-                  color: currentIndex == 2 ? Colors.grey.shade800 : Colors.grey.shade400,
-                  size: 24,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Messages',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: currentIndex == 2 ? Colors.grey.shade800 : Colors.grey.shade400,
-                  ),
-                ),
-              ],
-            ),
+          _buildNavItem(
+            index: 2,
+            activeImage: 'assets/message_act.png',
+            inactiveImage: 'assets/message_in.png',
+            label: 'Messages',
           ),
-          GestureDetector(
-            onTap: () => onTap(3),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.shopping_bag_outlined,
-                  color: currentIndex == 3 ? Colors.grey.shade800 : Colors.grey.shade400,
-                  size: 24,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Orders',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: currentIndex == 3 ? Colors.grey.shade800 : Colors.grey.shade400,
-                  ),
-                ),
-              ],
+          _buildNavItem(
+            index: 3,
+            activeImage: 'assets/order_act.png',
+            inactiveImage: 'assets/order_in.png',
+            label: 'Orders',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem({
+    required int index,
+    required String activeImage,
+    required String inactiveImage,
+    required String label,
+  }) {
+    final isActive = currentIndex == index;
+
+    return GestureDetector(
+      onTap: () => onTap(index),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            isActive ? activeImage : inactiveImage,
+            width: 24,
+            height: 24,
+            errorBuilder: (context, error, stackTrace) {
+              return Icon(
+                Icons.error_outline,
+                size: 24,
+                color: Colors.grey.shade400,
+              );
+            },
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: isActive ? Colors.grey.shade800 : Colors.grey.shade400,
             ),
           ),
         ],
