@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'delete_account_dialog.dart';
+import 'logout_dialog.dart';
+import 'package:oysloe_delivery/auth/login_screen.dart';
+import 'privacy_policy_screen.dart';
+import 'terms_conditions_screen.dart';
+import 'feedback_screen.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   final Function(int)? onNavTap;
@@ -7,6 +14,42 @@ class ProfileScreen extends StatelessWidget {
     super.key,
     this.onNavTap,
   });
+
+  void _showDeleteDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return const DeleteAccountDialog();
+      },
+    ).then((result) {
+      if (result == true) {
+        // Handle account deletion confirmed
+        print('Account deletion confirmed');
+        // Add your account deletion logic here
+      }
+    });
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return const LogoutDialog();
+      },
+    ).then((result) {
+      if (result == true) {
+        // Handle logout confirmed - navigate to login screen
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+              (route) => false, // Remove all previous routes
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +89,15 @@ class ProfileScreen extends StatelessWidget {
                     _buildMenuItem(
                       imagePath: 'assets/feed.png',
                       title: 'Feedback',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pop(context); // Close profile menu first
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FeedbackScreen(),
+                          ),
+                        );
+                      },
                     ),
                     Divider(
                       height: 1,
@@ -58,22 +109,38 @@ class ProfileScreen extends StatelessWidget {
                     _buildMenuItem(
                       imagePath: 'assets/delete.png',
                       title: 'Delete',
-                      onTap: () {},
+                      onTap: () => _showDeleteDialog(context),
                     ),
                     _buildMenuItem(
                       imagePath: 'assets/terms.png',
                       title: 'T&C',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pop(context); // Close profile menu first
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TermsConditionsScreen(),
+                          ),
+                        );
+                      },
                     ),
                     _buildMenuItem(
                       imagePath: 'assets/private.png',
                       title: 'Privacy policy',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pop(context); // Close profile menu first
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicyScreen(),
+                          ),
+                        );
+                      },
                     ),
                     _buildMenuItem(
                       imagePath: 'assets/log.png',
                       title: 'Logout',
-                      onTap: () {},
+                      onTap: () => _showLogoutDialog(context),
                     ),
                     const SizedBox(height: 8),
                   ],

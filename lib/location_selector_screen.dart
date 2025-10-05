@@ -7,7 +7,7 @@ import 'destination_bottom_sheet.dart';
 import 'notification_button.dart';
 import 'notifications_panel.dart';
 import 'pin_selection_overlay.dart';
-import 'profile_screen.dart';
+import 'package:oysloe_delivery/profile/profile_screen.dart';
 
 class LocationSelectionScreen extends StatefulWidget {
   const LocationSelectionScreen({super.key});
