@@ -39,7 +39,7 @@ class PinSelectionOverlay extends StatelessWidget {
 
         // Back button
         Positioned(
-          top: 50,
+          top: 20,
           left: 20,
           child: SafeArea(
             child: GestureDetector(
@@ -68,21 +68,21 @@ class PinSelectionOverlay extends StatelessWidget {
           ),
         ),
 
-        // Select button
+        // Select button - matching image exactly
         Positioned(
-          bottom: 80,
           left: 20,
           right: 20,
+          bottom: 15,
           child: Container(
-            height: 56,
+            height: 50,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(28),
+              borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -90,7 +90,7 @@ class PinSelectionOverlay extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: onSelect,
-                borderRadius: BorderRadius.circular(28),
+                borderRadius: BorderRadius.circular(12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -98,15 +98,16 @@ class PinSelectionOverlay extends StatelessWidget {
                       'Select',
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                         color: Colors.grey.shade800,
+                        letterSpacing: 0,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Icon(
                       Icons.arrow_forward,
-                      color: Colors.grey.shade800,
-                      size: 20,
+                      color: Colors.grey.shade700,
+                      size: 18,
                     ),
                   ],
                 ),

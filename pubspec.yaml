@@ -88,12 +88,18 @@ flutter:
     - assets/order_act.png
     - assets/order_in.png
     - assets/app_logo.png
+    - assets/add_image.png
+    - assets/send.png
+    - assets/me.png
+    - assets/seller.png
+    - assets/product.png
+
 
 
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/logo.png"
+  image_path: "assets/app_logo.png"
   # Optional: Remove old launcher icons
   remove_alpha_ios: true
 

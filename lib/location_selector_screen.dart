@@ -7,6 +7,7 @@ import 'destination_bottom_sheet.dart';
 import 'notification_button.dart';
 import 'notifications_panel.dart';
 import 'pin_selection_overlay.dart';
+import 'inbox_chat_screen.dart';
 import 'package:oysloe_delivery/profile/profile_screen.dart';
 
 class LocationSelectionScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
   bool _showBottomSheet = false;
   bool _showLocationPin = false;
   bool _showNotifications = false;
+  bool _showProfile = false;
   int _currentNavIndex = 0;
   Offset _mapOffset = Offset.zero;
   final DraggableScrollableController _bottomSheetController =
@@ -52,6 +54,7 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
       _showBottomSheet = false;
       _mapOffset = Offset.zero;
       _showNotifications = false;
+      _showProfile = false;
     });
   }
 
@@ -67,35 +70,62 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
     });
   }
 
+  void _closeProfile() {
+    setState(() {
+      _showProfile = false;
+    });
+  }
+
   void _onNavTap(int index) async {
-    if (index == _currentNavIndex) return;
+    if (index == _currentNavIndex && index != 1) return;
+
+    // Close profile if open when switching tabs
+    if (_showProfile && index != 1) {
+      setState(() {
+        _showProfile = false;
+      });
+    }
 
     if (index == 1) {
-      // Set index to 1 to highlight Profile tab
+      // Toggle profile menu
       setState(() {
         _currentNavIndex = 1;
-      });
-
-      // Navigate to Profile screen with transparent background
-      await Navigator.of(context).push(
-        PageRouteBuilder(
-          opaque: false, // Makes the route transparent
-          barrierDismissible: true,
-          barrierColor: Colors.transparent,
-          pageBuilder: (context, animation, secondaryAnimation) {
-            return const ProfileScreen();
-          },
-        ),
-      );
-
-      // Reset to Home when returning from Profile
-      setState(() {
-        _currentNavIndex = 0;
-        _showBottomSheet = true;
+        _showProfile = !_showProfile;
+        if (_showProfile) {
+          _showNotifications = false; // Close notifications when opening profile
+        }
       });
       return;
     }
 
+    if (index == 2) {
+      // Set index to 2 to highlight Messages tab
+      setState(() {
+        _currentNavIndex = 2;
+        _showProfile = false;
+      });
+
+      // Navigate to Messages/Inbox screen - route logic is now in InboxChatScreen
+      final result = await Navigator.push(
+        context,
+        InboxChatScreen.route(),
+      );
+
+      // If user tapped another tab from Messages, handle it
+      if (result != null && result is int) {
+        _onNavTap(result); // Recursively call with the new index
+        return;
+      }
+
+      // Reset to home when returning normally
+      if (mounted) {
+        setState(() {
+          _currentNavIndex = 0;
+          _showBottomSheet = true;
+        });
+      }
+      return;
+    }
     setState(() {
       _currentNavIndex = index;
     });
@@ -104,14 +134,27 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
       _showLocationBottomSheet();
     } else if (index == 3) {
       // Navigate to Orders screen
-      Navigator.push(
+      final result = await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const OrdersScreen(),
         ),
       );
+
+      // If user tapped another tab from Orders, handle it
+      if (result != null && result is int) {
+        _onNavTap(result); // Recursively call with the new index
+        return;
+      }
+
+      // Reset to home when returning normally
+      if (mounted) {
+        setState(() {
+          _currentNavIndex = 0;
+          _showBottomSheet = true;
+        });
+      }
     }
-    // Add index 2 (Messages) when that screen is ready
   }
 
   void _updateMapPosition(Offset delta) {
@@ -273,6 +316,18 @@ class _LocationSelectionScreenState extends State<LocationSelectionScreen> {
                   ),
                 );
               },
+            ),
+
+          // Profile Panel (positioned to sit above bottom nav)
+          if (_showProfile)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0, // Align with bottom nav height
+              child: ProfileScreen(
+                onClose: _closeProfile,
+              ),
             ),
         ],
       ),

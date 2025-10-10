@@ -9,102 +9,150 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
-  int _currentNavIndex = 0; // Home tab stays active (same as LocationSelectionScreen)
+  int _currentNavIndex = 0;
 
   void _onNavTap(int index) {
-    // Navigate based on selected tab but keep Home as active
     if (index == 0) {
-      // Navigate back to LocationSelectionScreen (Home)
       Navigator.pop(context);
     }
-    // For other tabs, you can add navigation to other screens
-    // but keep the visual state showing Home as active
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.grey.shade700,
+        surfaceTintColor: Colors.white,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFFF4F4F4),
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.grey.shade700,
+                size: 22,
+              ),
+              padding: EdgeInsets.zero,
+            ),
           ),
         ),
-        title: Text(
-          'Assign',
-          style: TextStyle(
-            color: Colors.grey.shade800,
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-          ),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Center(
+                child: Text(
+                  'Assign',
+                  style: TextStyle(
+                    color: Colors.grey.shade800,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: -0.3,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 40),
+          ],
         ),
-        centerTitle: false,
+        automaticallyImplyLeading: false,
+        titleSpacing: 0,
       ),
       body: Column(
         children: [
+          const SizedBox(height: 16),
+
           // Instructions
-          Container(
-            padding: const EdgeInsets.all(16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                // First instruction
                 Expanded(
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 6,
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade400,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Tap your pinned ad to order',
-                          style: TextStyle(
-                            fontSize: 11,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 4),
+                          width: 4,
+                          height: 4,
+                          decoration: BoxDecoration(
                             color: Colors.grey.shade600,
+                            shape: BoxShape.circle,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Tap your pinned ad to order',
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w400,
+                              height: 1.4,
+                              letterSpacing: -0.1,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 12),
+                // Second instruction
                 Expanded(
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 6,
-                        height: 6,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade400,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Tap image twice to remove',
-                          style: TextStyle(
-                            fontSize: 11,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(top: 4),
+                          width: 4,
+                          height: 4,
+                          decoration: BoxDecoration(
                             color: Colors.grey.shade600,
+                            shape: BoxShape.circle,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Tap image twice to remove',
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w400,
+                              height: 1.4,
+                              letterSpacing: -0.1,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
+          const SizedBox(height: 8),
 
           // Order List
           Expanded(
@@ -120,8 +168,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.shade100,
-                        blurRadius: 2,
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 4,
                         offset: const Offset(0, 1),
                       ),
                     ],
@@ -139,7 +187,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(6),
                           child: Image.asset(
-                            'assets/tv.png', // You'll need to add this image
+                            'assets/tv.png',
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
                               return Container(
@@ -167,6 +215,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey.shade800,
+                                letterSpacing: -0.2,
                               ),
                             ),
                             const SizedBox(height: 2),
@@ -176,6 +225,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey.shade800,
+                                letterSpacing: -0.2,
                               ),
                             ),
                             const SizedBox(height: 2),
@@ -184,6 +234,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               style: TextStyle(
                                 fontSize: 11,
                                 color: Colors.grey.shade500,
+                                letterSpacing: -0.1,
                               ),
                             ),
                           ],

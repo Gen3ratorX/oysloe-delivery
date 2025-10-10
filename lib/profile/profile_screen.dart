@@ -8,11 +8,11 @@ import 'feedback_screen.dart';
 
 
 class ProfileScreen extends StatelessWidget {
-  final Function(int)? onNavTap;
+  final VoidCallback? onClose;
 
   const ProfileScreen({
     super.key,
-    this.onNavTap,
+    this.onClose,
   });
 
   void _showDeleteDialog(BuildContext context) {
@@ -53,103 +53,112 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.pop(context),
-      child: Container(
-        color: Colors.transparent,
-        child: Align(
-          alignment: Alignment.bottomCenter,
+    return Column(
+      children: [
+        // Expanded gesture detector for dismissing (excludes bottom nav area)
+        Expanded(
           child: GestureDetector(
-            onTap: () {}, // Prevent tap from closing when tapping menu
+            onTap: onClose,
             child: Container(
-              margin: const EdgeInsets.only(bottom: 80), // Position above bottom nav
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade200,
-                    blurRadius: 4,
-                    offset: const Offset(0, -2),
+              color: Colors.transparent,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: GestureDetector(
+                  onTap: () {}, // Prevent tap from closing when tapping menu
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 0),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.shade200,
+                          blurRadius: 4,
+                          offset: const Offset(0, -2),
+                        ),
+                      ],
+                    ),
+                    child: Material(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(height: 20),
+                          _buildMenuItem(
+                            imagePath: 'assets/feed.png',
+                            title: 'Feedback',
+                            onTap: () {
+                              onClose?.call(); // Close profile menu first
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const FeedbackScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: Colors.grey.shade300,
+                            indent: 24,
+                            endIndent: 24,
+                          ),
+                          _buildMenuItem(
+                            imagePath: 'assets/delete.png',
+                            title: 'Delete',
+                            onTap: () => _showDeleteDialog(context),
+                          ),
+                          _buildMenuItem(
+                            imagePath: 'assets/terms.png',
+                            title: 'T&C',
+                            onTap: () {
+                              onClose?.call(); // Close profile menu first
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const TermsConditionsScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          _buildMenuItem(
+                            imagePath: 'assets/private.png',
+                            title: 'Privacy policy',
+                            onTap: () {
+                              onClose?.call(); // Close profile menu first
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const PrivacyPolicyScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          _buildMenuItem(
+                            imagePath: 'assets/log.png',
+                            title: 'Logout',
+                            onTap: () => _showLogoutDialog(context),
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+                      ),
+                    ),
                   ),
-                ],
-              ),
-              child: Material(
-                color: Colors.white,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(height: 20),
-                    _buildMenuItem(
-                      imagePath: 'assets/feed.png',
-                      title: 'Feedback',
-                      onTap: () {
-                        Navigator.pop(context); // Close profile menu first
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const FeedbackScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                      color: Colors.grey.shade300,
-                      indent: 24,
-                      endIndent: 24,
-                    ),
-                    _buildMenuItem(
-                      imagePath: 'assets/delete.png',
-                      title: 'Delete',
-                      onTap: () => _showDeleteDialog(context),
-                    ),
-                    _buildMenuItem(
-                      imagePath: 'assets/terms.png',
-                      title: 'T&C',
-                      onTap: () {
-                        Navigator.pop(context); // Close profile menu first
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TermsConditionsScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    _buildMenuItem(
-                      imagePath: 'assets/private.png',
-                      title: 'Privacy policy',
-                      onTap: () {
-                        Navigator.pop(context); // Close profile menu first
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PrivacyPolicyScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                    _buildMenuItem(
-                      imagePath: 'assets/log.png',
-                      title: 'Logout',
-                      onTap: () => _showLogoutDialog(context),
-                    ),
-                    const SizedBox(height: 8),
-                  ],
                 ),
               ),
             ),
           ),
         ),
-      ),
+        // Empty space for bottom navigation (allows taps to pass through)
+        const SizedBox(height: 0),
+      ],
     );
   }
 
